@@ -1,0 +1,29 @@
+name: Fetch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    concurrency: fetch
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Poetry
+        run: pipx install 'poetry==1.8.3'
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12.4
+          cache: poetry
+      - name: Install Deps
+        run: poetry install
+      - name: Fetch Ratings
+        run: poetry run python src/main.py
+      - name: Commit
+        run: |
+          git config user.name "James White"
+          git config user.email "dev.jameswhite@gmail.com"
+          git add . && git commit -m "Updated ratings" && git push || echo "No changes to commit"
