@@ -1,15 +1,17 @@
 import csv
 import logging
 from datetime import datetime
-from decimal import Decimal
 from os import environ
 from time import time
 
 import httpx
+from jinja2 import Environment, FileSystemLoader
 from parsel import Selector
 
 PROFILE_URL = 'https://competitions.lta.org.uk/player-profile/d6a6f490-b524-4ddd-bd28-31d6559ff120'
 DATA_FILE = 'data/ratings.csv'
+README_TEMPLATE = 'README.md.jinja'
+README = 'README.md'
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=environ.get('LOG_LEVEL', 'INFO'))
@@ -51,3 +53,8 @@ if __name__ == '__main__':
             
             update = csv.writer(open(DATA_FILE, 'a'))
             update.writerow(updated)
+
+            log.info('Updating %s template', README_TEMPLATE)
+            template = Environment(loader=FileSystemLoader('.')).get_template(README_TEMPLATE)
+            readme = template.render(singles=singles, doubles=doubles)
+            open(README, 'w').write(readme)
