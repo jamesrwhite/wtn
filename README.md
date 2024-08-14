@@ -4,7 +4,7 @@ Tracking my singles and doubles [WTN](https://worldtennisnumber.com) (World Tenn
 
 ## Current
 
-* **Singles**: 28.6
+* **Singles**: 29.0
 * **Doubles**: 29.9
 
 ## Development
