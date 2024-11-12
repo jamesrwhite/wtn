@@ -4,31 +4,14 @@ from datetime import datetime
 from os import environ
 from time import time
 
-import httpx
 from jinja2 import Environment, FileSystemLoader
-from parsel import Selector
 
-PROFILE_URL = 'https://competitions.lta.org.uk/player-profile/d6a6f490-b524-4ddd-bd28-31d6559ff120'
-DATA_FILE = 'data/ratings.csv'
-README_TEMPLATE = 'README.md.jinja'
-README = 'README.md'
+from constants import DATA_FILE, PROFILE_URL, README, README_TEMPLATE
+from data import fetch
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=environ.get('LOG_LEVEL', 'INFO'))
 
-def fetch(url):
-    # Fetch the profile page (including cookie to bypass cookie banner)
-    response = httpx.get(
-        url=PROFILE_URL,
-        cookies={'st': 'l=2057&exp=45847.799465463&c=1&cp=1'},
-    )
-
-    # Extract the ratings from the page
-    html = Selector(text=response.text)
-    elements = html.css('.tag-duo__value::text').getall()
-    [singles, doubles] = [r.strip() for r in elements if r.strip() != '']
-
-    return (singles, doubles)
 
 if __name__ == '__main__':
     # Fetch the latest ratings
