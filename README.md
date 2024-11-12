@@ -7,6 +7,10 @@ Tracking my singles and doubles [WTN](https://worldtennisnumber.com) (World Tenn
 * **Singles**: 27.5
 * **Doubles**: 29.3
 
+## History
+
+Available in: [data/ratings.csv](data/ratings.csv)
+
 ## Development
 
 ### Setup
