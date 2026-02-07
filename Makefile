@@ -5,4 +5,4 @@ install:
 	@poetry install
 
 run:
-	@poetry run python src/main.py
+	@poetry run python src/main.py $(if $(force),--force,)
